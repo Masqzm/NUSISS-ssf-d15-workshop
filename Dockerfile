@@ -1,22 +1,35 @@
-FROM node:23.1.0
+# Install JDK
+FROM eclipse-temurin:23-jdk
 
 LABEL maintainer="hazim"
 
-## BUILD IMG
+# BUILD APP
+#-----------
+# Create dir /app & change current dir into /app
 WORKDIR /app
 
-# Copy files to image
-COPY *.js .
-COPY *.json .
-COPY public public
-COPY views views
+# Copy files/dir over (COPY [src] [dst/dir name])
+COPY mvnw .
+COPY .mvn .mvn
 
-# Install pkgs
-RUN npm ci
+COPY pom.xml .
+COPY src src    
 
-## RUN IMG
-ENV PORT=3000
+# Build jar app
+#For Railway
+RUN chmod a+x ./mvnw && ./mvnw package -Dmaven.test.skip=true
 
+
+# RUN APP
+#---------
+# For Railway
+ENV PORT=8080
+
+# Specify which port app needs
+#EXPOSE ${SERVER_PORT}
 EXPOSE ${PORT}
 
-ENTRYPOINT node main.js
+# Run app
+#ENTRYPOINT java -jar target/day12-0.0.1-SNAPSHOT.jar
+# For Railway
+ENTRYPOINT SERVER_PORT=${PORT} java -jar target/day15-0.0.1-SNAPSHOT.jar
