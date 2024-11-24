@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import jakarta.servlet.http.HttpSession;
 import ssf.day15.services.UserService;
 
 @Controller
@@ -19,16 +20,29 @@ public class UserController {
 
     @Autowired
     private UserService userSvc;
+
+    
+    @GetMapping(path={"/", "index.html"})
+    public String getIndex(HttpSession sess) {
+        sess.invalidate();
+
+        return "index";
+    }
     
     @GetMapping("/user")
-    public String getUser(@RequestParam String name, Model model) {
+    public String getUser(@RequestParam String username, HttpSession sess, Model model) {
 
         // TODO: 
         // validation of name - only allow alphanumeric
 
-        List<String> cartList = userSvc.getUserCartList(name.toLowerCase());
+        // Sign in to session
+        sess.setAttribute(userSvc.USER_SESS_ATTR, username);
 
-        model.addAttribute("userName", name);
+        List<String> cartList = userSvc.getUserCartList(username.toLowerCase());
+
+        logger.info("cartList: %s".formatted(cartList));
+
+        model.addAttribute("username", username);
         model.addAttribute("cartList", cartList);
 
         return "cart-list";

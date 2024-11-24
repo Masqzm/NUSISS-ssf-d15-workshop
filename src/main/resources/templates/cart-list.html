@@ -3,32 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart list</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Your Cart List</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <h1><span data-th-text="${userName}"></span></h1>
-    <h2><span data-th-if="${cartList == null or cartList.empty}">Your cart is empty!</span></h2>
-    <div data-th-if="${cartList != null and !cartList.empty}"><h2>Your shopping cart(s)</h2>
+    <h1><span data-th-text="${username}"></span></h1>
+    
+    <div data-th-if="${cartList == null or cartList.empty}"><h2>Your cart is empty!</h2></div>
+    
+    <div data-th-if="${cartList != null and !cartList.empty}">
+        <h2>Your shopping cart(s)</h2>
         <ul>
-            <!-- <li data-th-each="c, sIter : ${cartList}">
-                <a data-th-href="@{/cart/{cart}(cart=${c.id})}">
-                    <h4> <code data-th-text="${i}"></code> </h4>
-                </a>
-            </li> -->
-            <li data-th-each="cartID : ${cartList}">
-                <a data-th-href="@{/cart/{$cartID}}">
-                    <h2><code data-th-text="${cartID}"></code></h2>
+            <li data-th-each="cID : ${cartList}">
+                <a data-th-href="@{/cart/{cartID}(cartID=${cID})}">
+                    <h2><code data-th-text="${cID}"></code></h2>
                 </a>
             </li>
         </ul>
     </div>
 
+    <br>
     <form method="POST" action="/new">
-        <input type="hidden" name="userName" data-th-value="${userName}">
         <button type="submit" id="new">New</button>
     </form>
-
-    <h2><a href="/">Back</a></h2>
+    <br>
+    <form action="/">
+        <button type="submit" id="logout">Log out</button>
+    </form>
 </body>
 </html>

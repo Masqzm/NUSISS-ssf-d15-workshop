@@ -4,13 +4,14 @@ import java.util.TreeMap;
 
 public class Cart {
     private String id;
-    private String userID;
+    //private String username;
     // Cart items map (K:item name, V:qty)
-    private TreeMap<String, Integer> items = new TreeMap<>();
+    private TreeMap<String, Integer> itemsMap = new TreeMap<>();
 
     @Override
     public String toString() {
-        return "Cart [id=" + id + ", userID=" + userID + ", items=" + items + "]";
+        //return "Cart [id=" + id + ", username=" + username + ", itemsMap=" + itemsMap + "]";
+        return "Cart [id=" + id + ", itemsMap=" + itemsMap + "]";
     }
     public String getId() {
         return id;
@@ -18,16 +19,16 @@ public class Cart {
     public void setId(String id) {
         this.id = id;
     }
-    public String getUserID() {
-        return userID;
+    // public String getUsername() {
+    //     return username;
+    // }
+    // public void setUsername(String username) {
+    //     this.username = username;
+    // }
+    public TreeMap<String, Integer> getItemsMap() {
+        return itemsMap;
     }
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-    public TreeMap<String, Integer> getItems() {
-        return items;
-    }
-    public void setItems(TreeMap<String, Integer> items) {
-        this.items = items;
+    public void setItemsMap(TreeMap<String, Integer> itemsMap) {
+        this.itemsMap = itemsMap;
     }
 }

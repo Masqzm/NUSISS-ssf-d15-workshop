@@ -3,9 +3,16 @@ body {
     padding: 0 10px;
 }
 
+thead {
+    font-weight: 600;
+}
+
 td {
     padding: 5px;
-    font-weight: 600;
+}
+
+td.col-1 {
+    padding-right: 100px;
 }
 
 input#name {
@@ -21,7 +28,7 @@ button#login {
     float: right;
 }
 
-li {
-  /* list-style-type: none;
-  font-weight: 600; */
-}
+/* li {
+  list-style-type: none;
+  font-weight: 600;
+} */

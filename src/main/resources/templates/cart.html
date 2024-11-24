@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Items</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <h1><span data-th-text="${cart.id}"></span></h1>
+    <table>
+        <thead>
+            <tr>
+                <td class="col-1">Item</td>
+                <td class="col-2">Qty</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-th-each="item, sIter : ${cart.itemsMap}">
+                <td class="col-1"><span data-th-text="${item.key}"></span></td>
+                <td class="col-2"><span data-th-text="${item.value}"></span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <br>
+    <form method="GET" action="/user">
+        <input type="hidden" name="username" id="username" data-th-value="${username}">
+        <button type="submit" id="back">Back</button>
+    </form>
+</body>
+</html>

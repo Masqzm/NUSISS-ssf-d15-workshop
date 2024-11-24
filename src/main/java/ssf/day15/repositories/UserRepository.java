@@ -1,8 +1,5 @@
 package ssf.day15.repositories;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,27 +19,50 @@ public class UserRepository {
     @Autowired @Qualifier("redis-0")
     private RedisTemplate<String, String> template;
 
-    // HEXISTS CART fred
-    // HSET CART fred ""
-    public List<String> getUserCartList(String username) {
-        HashOperations<String, String, String> hashOps = template.opsForHash();
+    // HEXISTS USER fred
+    // # if fred not avail:
+    // HSET USER fred ""
+    // HGET USER fred
+    // public List<String> getUserCartList(String username) {
+    //     HashOperations<String, String, String> hashOps = template.opsForHash();
                 
+    //     // Create user if they don't exist
+    //     hashOps.putIfAbsent(USER_KEY, username, "");
+
+    //     // Convert cartsCSV to list of string (of cartIDs)
+    //     String cartsCSV = (String) hashOps.get(USER_KEY, username);
+        
+    //     logger.info("cartCSV: [%s]".formatted(cartsCSV));
+
+    //     // User has no carts
+    //     if(cartsCSV.isBlank())
+    //         return new ArrayList<String>();
+        
+    //     List<String> cartList = Arrays.asList(cartsCSV.split(","));
+        
+    //     logger.info("cartList: %s".formatted(cartList));
+
+    //     return cartList;
+    // }
+    
+    // HEXISTS USER fred
+    // # if fred not avail:
+    // HSET USER fred ""
+    // HGET USER fred
+    // Returns a user's cart list as csv. Will create new user if user doesnt exist
+    public String getUserCartListCSV(String username) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
+
         // Create user if they don't exist
         hashOps.putIfAbsent(USER_KEY, username, "");
 
-        // Convert cartsCSV to list of string (of cartIDs)
-        String cartsCSV = (String) hashOps.get(USER_KEY, username);
-        
-        logger.info("cartCSV: [%s]".formatted(cartsCSV));
+        return (String) hashOps.get(USER_KEY, username);
+    }
 
-        // User has no carts
-        if(cartsCSV.isBlank())
-            return null;
-        
-        List<String> cartList = Arrays.asList(cartsCSV.split(","));
-        
-        logger.info("cartList: %s".formatted(cartList));
+    // HSET USER fred "<cartListCSV>"
+    public void updateCartList(String username, String cartListCSV) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
 
-        return cartList;
+        hashOps.put(USER_KEY, username, cartListCSV);
     }
 }
