@@ -8,7 +8,31 @@
 </head>
 <body>
     <h1><span data-th-text="${cart.id}"></span></h1>
-    <table>
+    
+    <form method="POST" action="/add">
+        <input type="hidden" name="cartID" data-th-value="${cart.id}">
+        <table class="cart-form">
+            <tr>
+                <td>Item</td>
+                <td>
+                    <input type="text" name="item" id="item">
+                </td>
+                <td>Qty</td>
+                <td>
+                    <input type="number" name="qty" id="qty">
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td><button type="submit" id="add">Add</button></td>
+            </tr>
+        </table>
+    </form>
+
+    <br>
+    <table class="cart">
         <thead>
             <tr>
                 <td class="col-1">Item</td>
@@ -23,6 +47,12 @@
         </tbody>
     </table>
 
+    <br>
+    <form method="POST" action="/save" id="save">
+        <input type="hidden" name="cartID" data-th-value="${cart.id}">
+        <button type="submit" id="saveBtn">Save</button> <span class="save-info" data-th-text="${saveResult}"></span>
+    </form>
+    
     <br>
     <form method="GET" action="/user">
         <input type="hidden" name="username" id="username" data-th-value="${username}">

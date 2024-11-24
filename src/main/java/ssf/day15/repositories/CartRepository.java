@@ -30,14 +30,16 @@ public class CartRepository {
         Map<String, String> itemsStringMap = hashOps.entries(CART_KEY_PREFIX+cartID);
         TreeMap<String, Integer> itemsMap = new TreeMap<>();
 
-        logger.info("tMap cart: %s".formatted(itemsMap));
-
         // CartID not found
         if(itemsStringMap.isEmpty())
             return Optional.empty(); 
 
         // Check if "" found as cart item (if found, itemsMap is empty)
-        if(!itemsStringMap.containsKey("")) {
+        if( !(itemsStringMap.size() == 1 && itemsStringMap.containsKey("")) )
+        {
+            // remove any blank keys if any
+            itemsStringMap.remove("");
+
             // Convert map values to int
             for(String key : itemsStringMap.keySet()) {
                 int entryValue = 0;
@@ -63,5 +65,18 @@ public class CartRepository {
         HashOperations<String, String, String> hashOps = template.opsForHash();
 
         hashOps.put(CART_KEY_PREFIX+cartID, "", "");
+    }
+
+    // HSET CART:<cartID> <item> <qty>
+    public void updateCart(String cartID, TreeMap<String, Integer> cartTreeMap) {
+        HashOperations<String, String, String> hashOps = template.opsForHash();
+
+        Map<String, String> itemsStringMap = new TreeMap<>();
+        
+        // Convert values to string
+        for(String key : cartTreeMap.keySet()) 
+            itemsStringMap.put(key, cartTreeMap.get(key).toString());
+        
+        hashOps.putAll(CART_KEY_PREFIX+cartID, itemsStringMap);
     }
 }

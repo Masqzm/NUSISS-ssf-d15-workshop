@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import ssf.day15.services.CartService;
 import ssf.day15.services.UserService;
 
 @Controller
@@ -20,6 +21,8 @@ public class UserController {
 
     @Autowired
     private UserService userSvc;
+    @Autowired
+    private CartService cartSvc;
 
     
     @GetMapping(path={"/", "index.html"})
@@ -37,10 +40,10 @@ public class UserController {
 
         // Sign in to session
         sess.setAttribute(userSvc.USER_SESS_ATTR, username);
+        // Reset current cart session
+        sess.removeAttribute(cartSvc.CART_SESS_ATTR);
 
         List<String> cartList = userSvc.getUserCartList(username.toLowerCase());
-
-        logger.info("cartList: %s".formatted(cartList));
 
         model.addAttribute("username", username);
         model.addAttribute("cartList", cartList);

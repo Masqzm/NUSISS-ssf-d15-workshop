@@ -18,32 +18,6 @@ public class UserRepository {
     // DependencyInject (DI) the RedisTemplate into ContactRepository
     @Autowired @Qualifier("redis-0")
     private RedisTemplate<String, String> template;
-
-    // HEXISTS USER fred
-    // # if fred not avail:
-    // HSET USER fred ""
-    // HGET USER fred
-    // public List<String> getUserCartList(String username) {
-    //     HashOperations<String, String, String> hashOps = template.opsForHash();
-                
-    //     // Create user if they don't exist
-    //     hashOps.putIfAbsent(USER_KEY, username, "");
-
-    //     // Convert cartsCSV to list of string (of cartIDs)
-    //     String cartsCSV = (String) hashOps.get(USER_KEY, username);
-        
-    //     logger.info("cartCSV: [%s]".formatted(cartsCSV));
-
-    //     // User has no carts
-    //     if(cartsCSV.isBlank())
-    //         return new ArrayList<String>();
-        
-    //     List<String> cartList = Arrays.asList(cartsCSV.split(","));
-        
-    //     logger.info("cartList: %s".formatted(cartList));
-
-    //     return cartList;
-    // }
     
     // HEXISTS USER fred
     // # if fred not avail:

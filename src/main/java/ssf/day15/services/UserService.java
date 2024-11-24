@@ -26,8 +26,6 @@ public class UserService {
         String userCartListCSV = userRepo.getUserCartListCSV(username);
 
         List<String> cartList = new ArrayList<>();
-
-        logger.info("csv: %s".formatted(userCartListCSV));
         
         if(!userCartListCSV.isBlank())
             cartList = Arrays.asList(userCartListCSV.split(","));
